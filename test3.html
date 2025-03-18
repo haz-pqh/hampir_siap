@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disable Scroll Until Start</title>
+    <style>
+        body {
+            height: 200vh; /* Just to allow scrolling */
+            overflow: hidden; /* Initially disable scrolling */
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Press Start to Enable Scrolling</h1>
+        <button id="startButton">Start</button>
+    </div>
+    
+    <script>
+        document.getElementById("startButton").addEventListener("click", function() {
+            document.body.style.overflow = "auto"; // Enable scrolling
+            this.disabled = true; // Disable button after click
+        });
+    </script>
+</body>
+</html>

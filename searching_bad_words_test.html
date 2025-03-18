@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profanity Filter</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        #warning { color: red; font-weight: bold; display: none; }
+    </style>
+</head>
+<body>
+    <h2>Search Bar</h2>
+    <input type="text" id="searchInput" placeholder="Enter your search...">
+    <button onclick="checkBadWords()">Submit</button>
+    <p id="warning"></p>
+
+    <script>
+        async function checkBadWords() {
+            let userInput = document.getElementById("searchInput").value;
+            const warningText = document.getElementById("warning");
+
+            // Remove extra spaces inside words (e.g., "b a d w o r d" → "badword")
+            let UserInput = userInput.replace(/\s+/g, ""); 
+
+            // Call the PurgoMalum API
+            try {
+                const response = await fetch(`https://www.purgomalum.com/service/json?text=${encodeURIComponent(UserInput)}`);
+                const data = await response.json();
+
+                // Check if the text was censored
+                if(userInput !== ""){
+                    if (data.result !== UserInput) {
+                        warningText.textContent = "Warning: Your search contains inappropriate words!";
+                        warningText.style.display = "block";
+                    } else {
+                        warningText.textContent = "";
+                        warningText.style.display = "none";
+                        alert("Search submitted: " + userInput);
+                    }
+                } else {
+                        warningText.textContent = "";
+                        warningText.style.display = "none";
+                        // alert("Search submitted: " + userInput);
+                    }
+                
+            } catch (error) {
+                console.error("Error checking bad words:", error);
+                warningText.textContent = "Error checking text. Please try again.";
+                warningText.style.display = "block";
+            }
+        }
+
+    </script>
+</body>
+</html>
